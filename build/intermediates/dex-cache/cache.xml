@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        is-multidex="true"
+        jar="F:\androidspace\MyApplication\JockBook\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\25.1.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="1630658fbc2d222b988603c27b4a4249586fbfe7">
+        <dex dex="F:\androidspace\MyApplication\JockBook\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-appcompat-v7-25.1.0_4b439d8d2bf525cf187e2a46e69ac0553fde78bc\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\he\.gradle\caches\modules-2\files-2.1\com.squareup.okhttp3\okhttp\3.4.1\c7c4f9e35c2fd5900da24f9872e3971801f08ce0\okhttp-3.4.1.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="c7c4f9e35c2fd5900da24f9872e3971801f08ce0">
+        <dex dex="F:\androidspace\MyApplication\JockBook\app\build\intermediates\transforms\dex\debug\folders\1000\10\okhttp-3.4.1_964f08f69ea622360a10c3277f7da1b2ac59a218\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="F:\SDK\extras\android\m2repository\com\android\support\support-annotations\25.1.0\support-annotations-25.1.0.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="64cb6b229a8bdfd907bc8dd46839a0053e4c018d">
+        <dex dex="F:\androidspace\MyApplication\JockBook\app\build\intermediates\transforms\dex\debug\folders\1000\10\support-annotations-25.1.0_bbe5ec58605601913cb444b747026e62f10ba7e6\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="F:\androidspace\MyApplication\JockBook\app\build\intermediates\exploded-aar\com.android.support\support-vector-drawable\25.1.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="e79aa3d9a16f8c9f16377c0608de70a8f31e5d80">
+        <dex dex="F:\androidspace\MyApplication\JockBook\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-vector-drawable-25.1.0_91488d236a7f1274645361806ffcef3d62f04545\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="F:\androidspace\MyApplication\JockBook\app\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="ac4024925271f514c1ea43f473edacff5882f917">
+        <dex dex="F:\androidspace\MyApplication\JockBook\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run_ff3db5ce328d3f9c1f052ab8f4fd2d7671d7f75c\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="F:\androidspace\MyApplication\JockBook\app\build\intermediates\exploded-aar\com.android.support\animated-vector-drawable\25.1.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="6fb6ac3e8d3b9013819920d9ea11f3803c4c0033">
+        <dex dex="F:\androidspace\MyApplication\JockBook\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-animated-vector-drawable-25.1.0_92b852d3e78eb886bbe00736535f43a2ceab54c0\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="F:\androidspace\MyApplication\JockBook\app\build\intermediates\exploded-aar\top.baselitch.widget\bannerholder\1.0.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="6dd1eb104d47cac75b827a36020a3f654d677e32">
+        <dex dex="F:\androidspace\MyApplication\JockBook\app\build\intermediates\transforms\dex\debug\folders\1000\10\top.baselitch.widget-bannerholder-1.0.0_4b8f80e10f6e92517dbfcc69dec4a34231c8a0ca\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="F:\androidspace\MyApplication\JockBook\app\build\intermediates\exploded-aar\com.android.support\support-v4\25.1.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="d7c42c80f6509b9ea4db28ca7859ffae08ec5741">
+        <dex dex="F:\androidspace\MyApplication\JockBook\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-v4-25.1.0_7b68d39a7e7fd11a434f71806f36ae6649a98f37\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="F:\androidspace\MyApplication\JockBook\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="61f8d007d9b588fbb63ec7347768b52b74054281">
+        <dex dex="F:\androidspace\MyApplication\JockBook\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run-bootstrap_b36ae6091549a7a09993d48eac3f245c224b65a7\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="F:\androidspace\MyApplication\JockBook\app\build\intermediates\exploded-aar\com.android.support\support-core-ui\25.1.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="aee64634871d88a419d59eb743c1258a60f19700">
+        <dex dex="F:\androidspace\MyApplication\JockBook\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-core-ui-25.1.0_9c4f48972258d01e9c2a84a6972f9c97c41f2f35\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\he\.gradle\caches\modules-2\files-2.1\com.squareup.okio\okio\1.9.0\f824591a0016efbaeddb8300bee54832a1398cfa\okio-1.9.0.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="f824591a0016efbaeddb8300bee54832a1398cfa">
+        <dex dex="F:\androidspace\MyApplication\JockBook\app\build\intermediates\transforms\dex\debug\folders\1000\10\okio-1.9.0_03b19149a73101cd3188b0b8b14a38ad6ba50381\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\he\.gradle\caches\modules-2\files-2.1\com.google.code.gson\gson\2.7\751f548c85fa49f330cecbb1875893f971b33c4e\gson-2.7.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="751f548c85fa49f330cecbb1875893f971b33c4e">
+        <dex dex="F:\androidspace\MyApplication\JockBook\app\build\intermediates\transforms\dex\debug\folders\1000\10\gson-2.7_aaa198839447142e4f8ffb355632c238b3deaeea\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="F:\androidspace\MyApplication\JockBook\app\build\intermediates\exploded-aar\com.android.support\recyclerview-v7\25.1.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="b266c8faa5af72e579b9da36ef35053ffed6ac64">
+        <dex dex="F:\androidspace\MyApplication\JockBook\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-recyclerview-v7-25.1.0_c0f65d2fa0929472c49772c2648a0c5c12778874\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="F:\androidspace\MyApplication\JockBook\app\build\intermediates\exploded-aar\com.android.support\cardview-v7\25.1.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="7f2420506110902f033406b25697cf97ee8c38b2">
+        <dex dex="F:\androidspace\MyApplication\JockBook\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-cardview-v7-25.1.0_20fa478bb7e90b96306c592a5c807a1a9f8fadc0\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="F:\androidspace\MyApplication\JockBook\app\build\intermediates\exploded-aar\com.android.support\support-core-utils\25.1.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="0a0ef86b7fa568a52bf6214a0326ca1f1d618da7">
+        <dex dex="F:\androidspace\MyApplication\JockBook\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-core-utils-25.1.0_aa7c42ded620a71a856c83b68ebb1b2c883a253f\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="F:\androidspace\MyApplication\JockBook\app\build\intermediates\exploded-aar\com.android.support\support-fragment\25.1.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="2a53c4f3518116b8c6aee0e477233f0f7da8616f">
+        <dex dex="F:\androidspace\MyApplication\JockBook\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-fragment-25.1.0_1a1aeca291d5566a7238205fd7a6f23344eb88c0\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="F:\androidspace\MyApplication\JockBook\app\build\intermediates\exploded-aar\com.android.support\support-media-compat\25.1.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="f02263e35e52668dd17b73bf961437e3d562b35f">
+        <dex dex="F:\androidspace\MyApplication\JockBook\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-media-compat-25.1.0_2f653d0200fc44db1b36a196f33f5317a0be81ec\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\he\.gradle\caches\modules-2\files-2.1\com.github.bumptech.glide\glide\3.7.0\9e9eeaf9948ee4d6c3ab354e8dc14368f16994a4\glide-3.7.0.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="9e9eeaf9948ee4d6c3ab354e8dc14368f16994a4">
+        <dex dex="F:\androidspace\MyApplication\JockBook\app\build\intermediates\transforms\dex\debug\folders\1000\10\glide-3.7.0_d17efd0763d60d4a2ada426922402d60412c1239\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="F:\androidspace\MyApplication\JockBook\app\build\intermediates\exploded-aar\com.android.support\support-compat\25.1.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="ca3c7aa31e2726a400a6e552b93cb9f63c9a1e6d">
+        <dex dex="F:\androidspace\MyApplication\JockBook\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-compat-25.1.0_05128c8a9718081a5bcb692aaa56f01338c04813\classes.dex" />
+    </item>
+
+</items>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="120dp">
+
+        <top.baselitch.widget.bannerholder.BannerHolderView
+            android:id="@+id/banner_holder"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            app:indicatorResId="@drawable/banner_holder_selector"
+            app:isAutoLooper="true"></top.baselitch.widget.bannerholder.BannerHolderView>
+
+        <ProgressBar
+            android:id="@+id/pb"
+            style="@style/Base.TextAppearance.AppCompat.Small"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center" />
+    </FrameLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_weight="1">
+
+        <android.support.v4.view.PagerTabStrip
+            android:id="@+id/page_tab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            ></android.support.v4.view.PagerTabStrip>
+
+
+    </android.support.v4.view.ViewPager>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hello World!" />
+</LinearLayout>
