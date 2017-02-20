@@ -12,7 +12,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
+import com.ashokvarma.bottomnavigation.BottomNavigationBar;
+import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 import com.example.he.jockbook.Utility.HideStatusBar;
 import com.example.he.jockbook.Utility.HttpUtil;
 import com.example.he.jockbook.Utility.SharedPreferrenceHelper;
@@ -49,6 +52,8 @@ public class MainActivity extends AppCompatActivity {
     private int mHeight;
     private List<Bitmap> mList = new ArrayList<>();
     private ProgressBar mBar;
+    private BottomNavigationBar mButtonBar;
+
 
     private ViewPager mViewPager;
     private PagerTabStrip mPagerTab;
@@ -56,16 +61,14 @@ public class MainActivity extends AppCompatActivity {
     private List<String> mTitle;
 
 
-
-    private Handler h=new Handler(){
+    private Handler h = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            if(msg.what==OK){
+            if (msg.what == OK) {
                 initHolder();
             }
         }
     };
-
 
 
     @Override
@@ -73,23 +76,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         HideStatusBar.hide(this);
-//        HttpUtil.sendOkHttpRequest(url, new Callback() {
-//            @Override
-//            public void onFailure(Call call, IOException e) {
-//                Looper.prepare();
-//                Toast.makeText(MainActivity.this, "连接失败", Toast.LENGTH_SHORT).show();
-//                Looper.loop();
-//            }
-//
-//            @Override
-//            public void onResponse(Call call, Response response) throws IOException {
-//                Utility.handleJock(response.body().string());
-//            }
-//        });
-
 
         mHolder = (BannerHolderView) findViewById(R.id.banner_holder);
-        mBar= (ProgressBar) findViewById(R.id.pb);
+        mBar = (ProgressBar) findViewById(R.id.pb);
+        mButtonBar = (BottomNavigationBar) findViewById(R.id.navigation_bar);
+
         HolderAttr.Builder builder = mHolder.getHolerAttr();//获取Holder配置参数构建对象
         builder.setSwitchDuration(900)//设置切换Banner的持续时间
                 .setAutoLooper(true)//开启自动轮播
@@ -117,10 +108,11 @@ public class MainActivity extends AppCompatActivity {
         } else {
             loadImage(BING_URL);
         }
-        h.sendEmptyMessageDelayed(OK,2000);
+        h.sendEmptyMessageDelayed(OK, 2000);
         //ViewPage初始化
         initView();
-
+        //底部导航栏初始化
+        initBottomBar();
 
 
     }
@@ -157,9 +149,9 @@ public class MainActivity extends AppCompatActivity {
         Bitmap d = i.decodeSampledBitmapFromResoures(getResources(), R.drawable.image_default, mWidth, mHeight);
         mList.add(b);
         mList.add(c);
-        if(mBitmap!=null){
+        if (mBitmap != null) {
             mList.add(mBitmap);
-        }else{
+        } else {
             mList.add(d);
         }
         mBar.setVisibility(View.GONE);
@@ -172,15 +164,15 @@ public class MainActivity extends AppCompatActivity {
     /**
      * ViewPager 初始化
      */
-    private void  initView(){
-        mViewPager= (ViewPager) findViewById(R.id.view_pager);
-        mPagerTab= (PagerTabStrip) findViewById(R.id.page_tab);
+    private void initView() {
+        mViewPager = (ViewPager) findViewById(R.id.view_pager);
+        mPagerTab = (PagerTabStrip) findViewById(R.id.page_tab);
         mPagerTab.setTabIndicatorColor(Color.RED);
         mPagerTab.setDrawFullUnderline(false);
         mPagerTab.setTextSpacing(0);
 
-        mView=new ArrayList<>();
-        mTitle=new ArrayList<>();
+        mView = new ArrayList<>();
+        mTitle = new ArrayList<>();
 
         mView.add(new JockFragment());
         mView.add(new JockFragment());
@@ -190,9 +182,40 @@ public class MainActivity extends AppCompatActivity {
         mTitle.add("趣图");
         mTitle.add("其他");
 
-        MyViewPagerAdapter adapter=new MyViewPagerAdapter(getSupportFragmentManager(),mView,mTitle);
+        MyViewPagerAdapter adapter = new MyViewPagerAdapter(getSupportFragmentManager(), mView, mTitle);
 
         mViewPager.setAdapter(adapter);
+
+    }
+
+    private void initBottomBar() {
+        //添加选项
+        mButtonBar.addItem(new BottomNavigationItem(R.drawable.news_unselect, "最新"))
+                .addItem(new BottomNavigationItem(R.drawable.random_unselect, "随机"))
+                .addItem(new BottomNavigationItem(R.drawable.me_unselect, "我"))
+                .initialise();
+
+        //设置点击事件
+        mButtonBar.setTabSelectedListener(new BottomNavigationBar.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(int position) {
+                //未选中-->选中
+                if (position == 0)
+                    Toast.makeText(MainActivity.this, "你选中了最新按钮", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onTabUnselected(int position) {
+                //选中-->未选中
+
+            }
+
+            @Override
+            public void onTabReselected(int position) {
+                //选中-->选中
+            }
+        });
+
 
     }
 

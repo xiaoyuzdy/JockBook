@@ -24,24 +24,31 @@
             android:layout_gravity="center" />
     </FrameLayout>
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/view_pager"
+    <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_weight="1">
 
-        <android.support.v4.view.PagerTabStrip
-            android:id="@+id/page_tab"
-            android:layout_width="wrap_content"
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/view_pager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <android.support.v4.view.PagerTabStrip
+                android:id="@+id/page_tab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+            </android.support.v4.view.PagerTabStrip>
+
+        </android.support.v4.view.ViewPager>
+
+        <com.ashokvarma.bottomnavigation.BottomNavigationBar
+            android:id="@+id/navigation_bar"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            ></android.support.v4.view.PagerTabStrip>
-
-
-    </android.support.v4.view.ViewPager>
-
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!" />
+            android:layout_gravity="bottom"
+            app:bnbActiveColor="@android:color/holo_red_light"
+            app:bnbMode="mode_default"></com.ashokvarma.bottomnavigation.BottomNavigationBar>
+    </android.support.design.widget.CoordinatorLayout>
 </LinearLayout>
