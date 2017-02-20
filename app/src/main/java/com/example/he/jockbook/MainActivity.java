@@ -22,8 +22,10 @@ import com.example.he.jockbook.Utility.SharedPreferrenceHelper;
 import com.example.he.jockbook.Utility.imageloader.loader.ImageLoader;
 import com.example.he.jockbook.Utility.imageloader.loader.ImageResizer;
 import com.example.he.jockbook.Utility.imageloader.utils.MyUtils;
+import com.example.he.jockbook.View.ImageFragment;
 import com.example.he.jockbook.View.JockFragment;
 import com.example.he.jockbook.View.MyViewPagerAdapter;
+import com.example.he.jockbook.View.OtherFragment;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -175,8 +177,8 @@ public class MainActivity extends AppCompatActivity {
         mTitle = new ArrayList<>();
 
         mView.add(new JockFragment());
-        mView.add(new JockFragment());
-        mView.add(new JockFragment());
+        mView.add(new ImageFragment());
+        mView.add(new OtherFragment());
 
         mTitle.add("笑话");
         mTitle.add("趣图");
@@ -188,6 +190,10 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+
+    /**
+     * 初始化底部导航栏
+     */
     private void initBottomBar() {
         //添加选项
         mButtonBar.addItem(new BottomNavigationItem(R.drawable.news_unselect, "最新"))

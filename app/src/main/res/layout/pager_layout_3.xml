@@ -1,10 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <TextView
+    <android.support.v7.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="第3页"/>
+        android:layout_height="400dp"
+        android:layout_margin="20dp"
+        app:cardCornerRadius="5dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:text="关于我:"
+            android:textColor="@android:color/black"
+            android:textSize="16sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="   CSDN：http://blog.csdn.net/fuckluy \n   GitHub：http://www.github.com/xiaoyuzdy  如果觉得项目好欢迎Star"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="14sp" />
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:text="由于服务端的接口时网上免费的每天的访问量有次数限制，次数很少很少，如果服务端访问次数用完了直接开启应用会直接GG"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="14sp" />
+
+
+    </android.support.v7.widget.CardView>
 </LinearLayout>

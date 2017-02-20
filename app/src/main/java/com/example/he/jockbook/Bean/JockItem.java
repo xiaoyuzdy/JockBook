@@ -1,6 +1,7 @@
 package com.example.he.jockbook.Bean;
 
 /**
+ * RecyclerView的item对应的实体类
  * Created by he on 2017/2/19.
  */
 
