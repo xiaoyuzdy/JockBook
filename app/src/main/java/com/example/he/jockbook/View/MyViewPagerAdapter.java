@@ -36,4 +36,7 @@ public class MyViewPagerAdapter extends FragmentPagerAdapter {
         return mList.size();
     }
 
+
+
+
 }

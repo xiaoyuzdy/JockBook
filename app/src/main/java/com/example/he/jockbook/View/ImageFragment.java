@@ -44,10 +44,10 @@ public class ImageFragment  extends Fragment{
 
     private void init(){
 
-        mList.add(new ImageItem("http://cn.bing.com/az/hprichbg/rb/YorkshireWinter_ZH-CN9258658675_1920x1080.jpg","1112222"));
-        mList.add(new ImageItem("http://cn.bing.com/az/hprichbg/rb/YorkshireWinter_ZH-CN9258658675_1920x1080.jpg","1112222"));
-        mList.add(new ImageItem("http://cn.bing.com/az/hprichbg/rb/YorkshireWinter_ZH-CN9258658675_1920x1080.jpg","1112222"));
-        mList.add(new ImageItem("http://cn.bing.com/az/hprichbg/rb/YorkshireWinter_ZH-CN9258658675_1920x1080.jpg","1112222"));
+        mList.add(new ImageItem("http://img.juhe.cn/joke/201412/19/B0C3ABBEBBE0A6EA5B8FE04E27215FBC.gif","看看","1112222"));
+        mList.add(new ImageItem("http://cn.bing.com/az/hprichbg/rb/YorkshireWinter_ZH-CN9258658675_1920x1080.jpg","看看","1112222"));
+        mList.add(new ImageItem("http://cn.bing.com/az/hprichbg/rb/YorkshireWinter_ZH-CN9258658675_1920x1080.jpg","看看","1112222"));
+        mList.add(new ImageItem("http://cn.bing.com/az/hprichbg/rb/YorkshireWinter_ZH-CN9258658675_1920x1080.jpg","看看","1112222"));
 
     }
 

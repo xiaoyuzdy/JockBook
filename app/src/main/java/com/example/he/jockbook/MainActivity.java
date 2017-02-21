@@ -12,10 +12,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
+import com.example.he.jockbook.Constant.UrlConstants;
 import com.example.he.jockbook.Utility.HideStatusBar;
 import com.example.he.jockbook.Utility.HttpUtil;
 import com.example.he.jockbook.Utility.SharedPreferrenceHelper;
@@ -39,8 +39,6 @@ import top.baselitch.widget.bannerholder.BannerHolderView;
 import top.baselitch.widget.bannerholder.HolderAttr;
 
 public class MainActivity extends AppCompatActivity {
-
-    private static final String url = "http://japi.juhe.cn/joke/content/list.from?key=aea3530fe10ee7947528d76711ee7796&page=2&pagesize=10&sort=asc&time=1418745237";
     private static final String TAG = "MainActivity";
     //获取每日一图地址的URL
     private static final String BING_URL = "http://guolin.tech/api/bing_pic";
@@ -58,9 +56,16 @@ public class MainActivity extends AppCompatActivity {
 
 
     private ViewPager mViewPager;
+    private MyViewPagerAdapter mAdapter;
     private PagerTabStrip mPagerTab;
     private List<Fragment> mView;
     private List<String> mTitle;
+
+
+    //Fragment
+    private JockFragment mJock;
+    private ImageFragment mImage;
+    private OtherFragment mOther;
 
 
     private Handler h = new Handler() {
@@ -176,17 +181,20 @@ public class MainActivity extends AppCompatActivity {
         mView = new ArrayList<>();
         mTitle = new ArrayList<>();
 
-        mView.add(new JockFragment());
-        mView.add(new ImageFragment());
-        mView.add(new OtherFragment());
+        mJock = new JockFragment();
+        mImage = new ImageFragment();
+        mOther = new OtherFragment();
+
+        mView.add(mJock);
+        mView.add(mImage);
+        mView.add(mOther);
 
         mTitle.add("笑话");
         mTitle.add("趣图");
         mTitle.add("其他");
 
-        MyViewPagerAdapter adapter = new MyViewPagerAdapter(getSupportFragmentManager(), mView, mTitle);
-
-        mViewPager.setAdapter(adapter);
+        mAdapter = new MyViewPagerAdapter(getSupportFragmentManager(), mView, mTitle);
+        mViewPager.setAdapter(mAdapter);
 
     }
 
@@ -206,8 +214,38 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onTabSelected(int position) {
                 //未选中-->选中
-                if (position == 0)
-                    Toast.makeText(MainActivity.this, "你选中了最新按钮", Toast.LENGTH_SHORT).show();
+                switch (position) {
+                    //最新
+                    case 0:
+                        if (getViewPagerItem() == 0) {
+                            //显示刷新状态并刷新数据
+                            mJock.mRefresh.setRefreshing(true);
+                            mJock.URL= UrlConstants.NEWS_JOCK_URL;
+                            mJock.refreshJocks();
+                        } else if (getViewPagerItem() == 1) {
+
+                        } else if (getViewPagerItem() == 2) {
+
+                        }
+                        break;
+
+                    //随机
+                    case 1:
+                        if (getViewPagerItem() == 0) {
+                            //显示刷新状态并刷新数据
+                            mJock.mRefresh.setRefreshing(true);
+                            mJock.URL= UrlConstants.RANDOM_JOCK_URL;
+                            mJock.refreshJocks();
+                        } else if (getViewPagerItem() == 1) {
+
+                        } else if (getViewPagerItem() == 2) {
+
+                        }
+                        break;
+                    default:
+                        break;
+                }
+
             }
 
             @Override
@@ -219,10 +257,49 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onTabReselected(int position) {
                 //选中-->选中
+                switch (position) {
+                    case 0:
+                        if (getViewPagerItem() == 0) {
+                            //显示刷新状态并刷新数据
+                            mJock.mRefresh.setRefreshing(true);
+                            mJock.URL= UrlConstants.NEWS_JOCK_URL;
+                            mJock.refreshJocks();
+                        } else if (getViewPagerItem() == 1) {
+                        }
+
+                        //随机
+                    case 1:
+                        if (getViewPagerItem() == 0) {
+                            //显示刷新状态并刷新数据
+                            mJock.mRefresh.setRefreshing(true);
+                            mJock.URL= UrlConstants.RANDOM_JOCK_URL;
+                            mJock.refreshJocks();
+                        } else if (getViewPagerItem() == 1) {
+
+                        } else if (getViewPagerItem() == 2) {
+
+                        }
+                        break;
+
+                    default:
+                        break;
+                }
+
+
             }
         });
 
 
+    }
+
+
+    /**
+     * 获取当前ViewPager中Fragment的index
+     *
+     * @return
+     */
+    private int getViewPagerItem() {
+        return mViewPager.getCurrentItem();
     }
 
 

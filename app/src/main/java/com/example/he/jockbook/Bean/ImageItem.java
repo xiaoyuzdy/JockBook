@@ -6,11 +6,21 @@ package com.example.he.jockbook.Bean;
 
 public class ImageItem {
     private String mUpdateTime;
+    private String mImageTitle;
     private String mImageUrl;
 
-    public ImageItem(String mImageUrl, String mUpdateTime) {
+    public ImageItem(String mImageUrl, String mImageTitle, String mUpdateTime) {
         this.mImageUrl = mImageUrl;
         this.mUpdateTime = mUpdateTime;
+        this.mImageTitle = mImageTitle;
+    }
+
+    public String getmImageTitle() {
+        return mImageTitle;
+    }
+
+    public void setmImageTitle(String mImageTitle) {
+        this.mImageTitle = mImageTitle;
     }
 
     public String getmImageUrl() {

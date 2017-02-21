@@ -45,6 +45,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
     public void onBindViewHolder(ViewHolder holder, int position) {
         ImageItem item=mList.get(position);
         holder.updateTime.setText(item.getmUpdateTime());
+        holder.title.setText(item.getmImageTitle());
         loader=ImageLoader.build(mContext);
 //        width= MyUtils.getScreenMetrics(mContext).widthPixels;
 //        loader.bindBitmap(item.getmImageUrl(),holder.content,width,600);
@@ -59,12 +60,14 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
     static class ViewHolder extends RecyclerView.ViewHolder {
         CardView cardView;
         TextView updateTime;
+        TextView title;
         ImageView content;
 
         public ViewHolder(View itemView) {
             super(itemView);
             cardView = (CardView) itemView;
             updateTime = (TextView) itemView.findViewById(R.id.image_updateTime);
+            title= (TextView) itemView.findViewById(R.id.image_title);
             content = (ImageView) itemView.findViewById(R.id.image_content);
         }
     }
