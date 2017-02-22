@@ -15,13 +15,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.example.he.jockbook.Bean.JockData;
 import com.example.he.jockbook.Bean.JockItem;
 import com.example.he.jockbook.Constant.UrlConstants;
+import com.example.he.jockbook.MainActivity;
 import com.example.he.jockbook.R;
 import com.example.he.jockbook.Utility.HttpUtil;
-import com.example.he.jockbook.Utility.SharedPreferrenceHelper;
 import com.example.he.jockbook.Utility.Utility;
-import com.example.he.jockbook.myApplication;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -38,24 +38,28 @@ import okhttp3.Response;
 
 public class JockFragment extends Fragment {
     private RecyclerView mRecycler;
-    public static  String URL = UrlConstants.NEWS_JOCK_URL;
+    public static String URL = UrlConstants.NEWS_JOCK_URL;
+    public static boolean mRandom = false;
 
-    private JockAdapter adapter;
+
+    private JockAdapter mAdapter;
     private List<JockItem> mList = new ArrayList<>();
     public SwipeRefreshLayout mRefresh;
 
-    private static final int OK = 1;
+    private static final int JOCK_OK = 1;
 
     private static final String TAG = "JockFragment";
 
 
-    private Handler handler = new Handler() {
+    private Handler handler = new Handler(Looper.getMainLooper()) {
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
-                case OK:
-                    adapter.notifyDataSetChanged();
+                case JOCK_OK:
+                    mAdapter.notifyDataSetChanged();
                     mRefresh.setRefreshing(false);
+                    mRecycler.smoothScrollToPosition(0);
+                    MainActivity.canPress=true;
                     break;
                 default:
                     break;
@@ -64,12 +68,6 @@ public class JockFragment extends Fragment {
     };
 
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        Log.d(TAG, "onCreate: mListSize"+mList.size());
-    }
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -77,9 +75,7 @@ public class JockFragment extends Fragment {
         mRecycler = (RecyclerView) view.findViewById(R.id.recycle_view);
         mRefresh = (SwipeRefreshLayout) view.findViewById(R.id.jock_refresh);
         mRefresh.setColorSchemeResources(R.color.colorPrimary);
-
         Log.d(TAG, "onCreateView: ");
-
         return view;
     }
 
@@ -88,11 +84,10 @@ public class JockFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         initByHttp(URL);
-        adapter = new JockAdapter(mList);
+        mAdapter = new JockAdapter(mList);
         GridLayoutManager manager = new GridLayoutManager(getActivity(), 1);
         mRecycler.setLayoutManager(manager);
-        mRecycler.setAdapter(adapter);
-
+        mRecycler.setAdapter(mAdapter);
         mRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -106,8 +101,6 @@ public class JockFragment extends Fragment {
      * 初始化数据
      */
     private void initByHttp(String url) {
-        final int size = SharedPreferrenceHelper.getJockSize(myApplication.getContext());
-
         /**
          * 从网络中获取数据
          */
@@ -115,56 +108,41 @@ public class JockFragment extends Fragment {
             @Override
             public void onFailure(Call call, IOException e) {
                 Looper.prepare();
-                Toast.makeText(getActivity(), "连接失败", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "服务器连接失败", Toast.LENGTH_SHORT).show();
                 Looper.loop();
-
-                if (size != -1) {
-                    //读取数据
-                    if (size != -1) {
-                        mList.clear();
-                        for (int i = 0; i < size; i++) {
-                            String updateTime = SharedPreferrenceHelper.getJockUpdateTime(myApplication.getContext(), "" + i);
-                            String content = SharedPreferrenceHelper.getJockContent(myApplication.getContext(), "" + i);
-                            mList.add(new JockItem(content, updateTime));
-                            handler.sendEmptyMessageDelayed(OK,1000);
-                        }
-
-                    }
-                }
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                Utility.handleJock(response.body().string());
+                List<JockData> dataList = Utility.handleJock(response.body().string());
+                mList.clear();
+                Log.d(TAG, "onResponse: " + dataList.size());
+                for (JockData data : dataList) {
+                    mList.add(new JockItem(data.content, data.updatetime));
+                    Log.d(TAG, "onResponse: " + data.content);
+                }
+                handler.sendEmptyMessageDelayed(JOCK_OK, 1000);
             }
-
         });
 
-        //读取数据
-        if (size != -1) {
-            mList.clear();
-            for (int i = 0; i < size; i++) {
-                String updateTime = SharedPreferrenceHelper.getJockUpdateTime(myApplication.getContext(), "" + i);
-                String content = SharedPreferrenceHelper.getJockContent(myApplication.getContext(), "" + i);
-                mList.add(new JockItem(content, updateTime));
-                handler.sendEmptyMessageDelayed(OK,1000);
-            }
-        }
-
 //        mList.add(new JockItem("111", "sssssssssss"));
 //        mList.add(new JockItem("111", "sssssssssss"));
 //        mList.add(new JockItem("111", "sssssssssss"));
 //        mList.add(new JockItem("111", "sssssssssss"));
-        Log.d(TAG, "init: ");
 
     }
 
     /**
      * 更新消息数据
      */
-    public  void refreshJocks() {
-        initByHttp(URL);
-        handler.sendEmptyMessageDelayed(OK, 1000);
+    public void refreshJocks() {
+        if (mRandom)
+            initByHttp(UrlConstants.getJockRandomUrl());
+        else {
+            initByHttp(UrlConstants.NEWS_JOCK_URL);
+        }
+
+        handler.sendEmptyMessageDelayed(JOCK_OK, 1000);
     }
 
 

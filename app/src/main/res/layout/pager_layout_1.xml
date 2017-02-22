@@ -15,9 +15,6 @@
             android:layout_margin="10dp">
         </android.support.v7.widget.RecyclerView>
 
-
     </android.support.v4.widget.SwipeRefreshLayout>
-
-
 
 </LinearLayout>

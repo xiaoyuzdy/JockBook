@@ -3,6 +3,7 @@ package com.example.he.jockbook.View;
 import android.content.Context;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.he.jockbook.Bean.ImageItem;
 import com.example.he.jockbook.R;
 import com.example.he.jockbook.Utility.imageloader.loader.ImageLoader;
@@ -21,6 +23,8 @@ import java.util.List;
  */
 
 public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> {
+
+    private static final String TAG = "ImageAdapter";
 
     private Context mContext;
     private List<ImageItem> mList;
@@ -42,14 +46,24 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        ImageItem item=mList.get(position);
+    public void onBindViewHolder(final ViewHolder holder, int position) {
+        final ImageItem item = mList.get(position);
         holder.updateTime.setText(item.getmUpdateTime());
         holder.title.setText(item.getmImageTitle());
-        loader=ImageLoader.build(mContext);
+        loader = ImageLoader.build(mContext);
 //        width= MyUtils.getScreenMetrics(mContext).widthPixels;
 //        loader.bindBitmap(item.getmImageUrl(),holder.content,width,600);
-        Glide.with(mContext).load(item.getmImageUrl()).into(holder.content);
+
+        char t = item.getmImageUrl().charAt(item.getmImageUrl().length() - 1);
+        Log.d(TAG, "onBindViewHolder: " + t);
+
+        //加载GIF
+        if (t == 'f') {
+            Glide.with(mContext).load(item.getmImageUrl()).asGif()
+                    .diskCacheStrategy(DiskCacheStrategy.SOURCE).into(holder.content);
+        } else {
+            Glide.with(mContext).load(item.getmImageUrl()).into(holder.content);
+        }
     }
 
     @Override
@@ -67,7 +81,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
             super(itemView);
             cardView = (CardView) itemView;
             updateTime = (TextView) itemView.findViewById(R.id.image_updateTime);
-            title= (TextView) itemView.findViewById(R.id.image_title);
+            title = (TextView) itemView.findViewById(R.id.image_title);
             content = (ImageView) itemView.findViewById(R.id.image_content);
         }
     }

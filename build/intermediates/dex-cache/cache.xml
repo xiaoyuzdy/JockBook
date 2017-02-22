@@ -52,7 +52,7 @@
         jumboMode="true"
         optimize="true"
         revision="25.0.2"
-        sha1="50bdf5f6602c9418e6dd6a07fcae53977a9cce49">
+        sha1="11a49b8eab4f42f0357fd0e5b60dff405a62a21b">
         <dex dex="F:\androidspace\MyApplication\JockBook\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run_ff3db5ce328d3f9c1f052ab8f4fd2d7671d7f75c\classes.dex" />
     </item>
     <item
@@ -88,7 +88,7 @@
         jumboMode="true"
         optimize="true"
         revision="25.0.2"
-        sha1="71b15b5162850ae9c1791bc6ed8e96d680b48c44">
+        sha1="d9a5ab399b4a648098679b618a1bd878e4728639">
         <dex dex="F:\androidspace\MyApplication\JockBook\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run-bootstrap_b36ae6091549a7a09993d48eac3f245c224b65a7\classes.dex" />
     </item>
     <item
