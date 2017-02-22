@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerTabStrip;
@@ -15,13 +16,12 @@ import android.widget.ProgressBar;
 
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.Target;
 import com.example.he.jockbook.Constant.UrlConstants;
 import com.example.he.jockbook.Utility.HideStatusBar;
 import com.example.he.jockbook.Utility.HttpUtil;
 import com.example.he.jockbook.Utility.SharedPreferrenceHelper;
-import com.example.he.jockbook.Utility.imageloader.loader.ImageLoader;
-import com.example.he.jockbook.Utility.imageloader.loader.ImageResizer;
-import com.example.he.jockbook.Utility.imageloader.utils.MyUtils;
 import com.example.he.jockbook.View.ImageFragment;
 import com.example.he.jockbook.View.JockFragment;
 import com.example.he.jockbook.View.MyViewPagerAdapter;
@@ -30,6 +30,13 @@ import com.example.he.jockbook.View.OtherFragment;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Executor;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadFactory;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -50,9 +57,9 @@ public class MainActivity extends AppCompatActivity {
 
     private Bitmap mBitmap;
     private BannerHolderView mHolder;
-    private ImageLoader mImageLoader;
-    private int mWidth;
-    private int mHeight;
+//    private ImageLoader mImageLoader;
+//    private int mWidth;
+//    private int mHeight;
     private List<Bitmap> mList = new ArrayList<>();
     private ProgressBar mBar;
     private BottomNavigationBar mButtonBar;
@@ -71,15 +78,37 @@ public class MainActivity extends AppCompatActivity {
     private OtherFragment mOther;
 
 
-    private Handler h = new Handler() {
+    //线程池需要的一些参数
+    private static final int CPU_COUNT = Runtime.getRuntime().availableProcessors();
+    private static final int CORE_POOL_SIZE = CPU_COUNT + 1;
+    private static final int MAXIMUM_POOL_SIZE = CPU_COUNT * 2 + 1;
+    private static final long KEEP_ALIVE = 10L;
+    private static final ThreadFactory sThreadFactory = new ThreadFactory() {
+        private final AtomicInteger mCount = new AtomicInteger(1);
+
         @Override
-        public void handleMessage(Message msg) {
-            if (msg.what == BANNER_HOLDER_OK) {
-                initHolder();
-            }
+        public Thread newThread(Runnable r) {
+            return new Thread(r, "" + mCount.getAndIncrement());
         }
     };
+    private static final Executor THREAD_POOL_EXECUTOR = new ThreadPoolExecutor(CORE_POOL_SIZE, MAXIMUM_POOL_SIZE, KEEP_ALIVE,
+            TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>(), sThreadFactory);
 
+
+    public Handler h = new Handler(Looper.getMainLooper()) {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case BANNER_HOLDER_OK:
+                    mBar.setVisibility(View.GONE);
+                    mHolder.setHolderBitmaps(mList);
+                    break;
+                default:
+                    break;
+            }
+
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,26 +132,16 @@ public class MainActivity extends AppCompatActivity {
                 });
 
         mHolder.setHolerAttr(builder);
-        mWidth = MyUtils.getScreenMetrics(this).widthPixels;
-        mHeight = (int) MyUtils.dp2px(this, (float) 120);
-        mImageLoader = ImageLoader.build(this);
+//        mWidth = MyUtils.getScreenMetrics(this).widthPixels;
+//        mHeight = (int) MyUtils.dp2px(this, (float) 120);
+//        mImageLoader = ImageLoader.build(this);
 
-        final String url = SharedPreferrenceHelper.getBingPicUrl(this);
-        if (url != null) {
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    mBitmap = mImageLoader.loadBitmap(url, mWidth, mHeight);
-                }
-            }).start();
-        } else {
-            loadImage(BING_URL);
-        }
-        h.sendEmptyMessageDelayed(BANNER_HOLDER_OK, 2000);
         //ViewPage初始化
         initView();
         //底部导航栏初始化
         initBottomBar();
+        //顶部广告栏初始化
+        initHolder();
 
 
     }
@@ -144,7 +163,24 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(Call call, Response response) throws IOException {
                 final String urlImage = response.body().string();
                 SharedPreferrenceHelper.saveBingPicUrl(MainActivity.this, urlImage);
-                mBitmap = mImageLoader.loadBitmap(urlImage, mWidth, mHeight);
+                try {
+                    Bitmap b = Glide.with(MainActivity.this).load(R.drawable.holder_default_bj).asBitmap().into(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL).get();
+                    Bitmap c = Glide.with(MainActivity.this).load(R.drawable.holder_default_bj2).asBitmap().into(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL).get();
+                    Bitmap d = Glide.with(MainActivity.this).load(R.drawable.image_default).asBitmap().into(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL).get();
+                    mBitmap = Glide.with(MainActivity.this).load(urlImage).asBitmap().into(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL).get();
+                    mList.add(b);
+                    mList.add(c);
+                    if (mBitmap != null)
+                        mList.add(mBitmap);
+                    else {
+                        mList.add(d);
+                    }
+                    h.sendEmptyMessageDelayed(BANNER_HOLDER_OK, 1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
@@ -153,21 +189,37 @@ public class MainActivity extends AppCompatActivity {
      * 初始化广告栏
      */
     private void initHolder() {
-        ImageResizer i = new ImageResizer();
-        Bitmap b = i.decodeSampledBitmapFromResoures(getResources(), R.drawable.holder_default_bj, mWidth, mHeight);
-        Bitmap c = i.decodeSampledBitmapFromResoures(getResources(), R.drawable.holder_default_bj2, mWidth, mHeight);
-        Bitmap d = i.decodeSampledBitmapFromResoures(getResources(), R.drawable.image_default, mWidth, mHeight);
-        mList.add(b);
-        mList.add(c);
-        if (mBitmap != null) {
-            mList.add(mBitmap);
-        } else {
-            mList.add(d);
+        final String url = SharedPreferrenceHelper.getBingPicUrl(this);
+        if (url != null) {
+            Runnable loadBitmapFromLocal = new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        Bitmap b = Glide.with(MainActivity.this).load(R.drawable.holder_default_bj).asBitmap().into(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL).get();
+                        Bitmap c = Glide.with(MainActivity.this).load(R.drawable.holder_default_bj2).asBitmap().into(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL).get();
+                        Bitmap d = Glide.with(MainActivity.this).load(R.drawable.image_default).asBitmap().into(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL).get();
+                        mBitmap = Glide.with(MainActivity.this).load(url).asBitmap().into(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL).get();
+                        mList.add(b);
+                        mList.add(c);
+                        if (mBitmap != null)
+                            mList.add(mBitmap);
+                        else {
+                            mList.add(d);
+                        }
+                        h.sendEmptyMessageDelayed(BANNER_HOLDER_OK, 1000);
+
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    } catch (ExecutionException e) {
+                        e.printStackTrace();
+                    }
+                }
+            };
+            THREAD_POOL_EXECUTOR.execute(loadBitmapFromLocal);
+            Log.d(TAG, "initHolder: ");
+        }else{
+            loadImage(BING_URL);
         }
-        mBar.setVisibility(View.GONE);
-        //设置图片集合
-        mHolder.setHolderBitmaps(mList);
-        Log.d(TAG, "initHolder: ");
     }
 
 
@@ -218,60 +270,60 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onTabSelected(int position) {
 //                if (canPress) {
-                    switch (position) {
-                        //最新
-                        case 0:
-                            //笑话
-                            if (getViewPagerItem() == 0) {
-                                //显示刷新状态并刷新数据
-                                mJock.mRefresh.setRefreshing(true);
-                                mJock.mRandom = false;
-                                mJock.URL = UrlConstants.NEWS_JOCK_URL;
-                                mJock.refreshJocks();
-                            }
-                            //趣图
-                            else if (getViewPagerItem() == 1) {
-                                mImage.mRefresh.setRefreshing(true);
-                                mImage.mRandom = false;
-                                mImage.URL = UrlConstants.NEWS_IMAGE_URL;
-                                mImage.onRefresh();
+                switch (position) {
+                    //最新
+                    case 0:
+                        //笑话
+                        if (getViewPagerItem() == 0) {
+                            //显示刷新状态并刷新数据
+                            mJock.mRefresh.setRefreshing(true);
+                            mJock.mRandom = false;
+                            mJock.URL = UrlConstants.NEWS_JOCK_URL;
+                            mJock.refreshJocks();
+                        }
+                        //趣图
+                        else if (getViewPagerItem() == 1) {
+                            mImage.mRefresh.setRefreshing(true);
+                            mImage.mRandom = false;
+                            mImage.URL = UrlConstants.NEWS_IMAGE_URL;
+                            mImage.onRefresh();
 
-                            }
-                            //其他
-                            else if (getViewPagerItem() == 2) {
+                        }
+                        //其他
+                        else if (getViewPagerItem() == 2) {
 
-                            }
-                            break;
+                        }
+                        break;
 
-                        //随机
-                        case 1:
-                            //笑话
-                            if (getViewPagerItem() == 0) {
-                                //显示刷新状态并刷新数据
-                                mJock.mRefresh.setRefreshing(true);
-                                mJock.mRandom = true;
-                                mJock.refreshJocks();
-                            }
-                            //趣图
-                            else if (getViewPagerItem() == 1) {
-                                mImage.mRefresh.setRefreshing(true);
-                                mImage.mRandom = true;
-                                mImage.onRefresh();
-                            }
-                            //其他
-                            else if (getViewPagerItem() == 2) {
+                    //随机
+                    case 1:
+                        //笑话
+                        if (getViewPagerItem() == 0) {
+                            //显示刷新状态并刷新数据
+                            mJock.mRefresh.setRefreshing(true);
+                            mJock.mRandom = true;
+                            mJock.refreshJocks();
+                        }
+                        //趣图
+                        else if (getViewPagerItem() == 1) {
+                            mImage.mRefresh.setRefreshing(true);
+                            mImage.mRandom = true;
+                            mImage.onRefresh();
+                        }
+                        //其他
+                        else if (getViewPagerItem() == 2) {
 
-                            }
-                            break;
+                        }
+                        break;
 
-                        //我
-                        case 2:
-                            break;
+                    //我
+                    case 2:
+                        break;
 
-                        default:
-                            break;
-                    }
+                    default:
+                        break;
                 }
+            }
 //                canPress=false;
 //            }
 
@@ -285,7 +337,7 @@ public class MainActivity extends AppCompatActivity {
             //选中-->选中
             @Override
             public void onTabReselected(int position) {
-                if(canPress) {
+                if (canPress) {
                     switch (position) {
                         //最新
                         case 0:
@@ -337,7 +389,7 @@ public class MainActivity extends AppCompatActivity {
                             break;
                     }
                 }
-                canPress=false;
+                canPress = false;
             }
         });
 

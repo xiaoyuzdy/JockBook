@@ -9,6 +9,9 @@ import com.example.he.jockbook.Bean.Jock;
 import com.example.he.jockbook.Bean.JockData;
 import com.google.gson.Gson;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,21 +59,56 @@ public class Utility {
     public static synchronized List<JockData> handleJock(String jsonData) {
         List<JockData> dataList = new ArrayList<>();
         if (!TextUtils.isEmpty(jsonData)) {
-            Gson gson = new Gson();
-            Jock jock = gson.fromJson(jsonData, Jock.class);
-            String s=gson.toJson(jsonData);
-
-
-            Log.d(TAG, "error_code" + jock.getError_code());
-            Log.d(TAG, "reason " + jock.getReason());
-            if (jock.getReason().equals("Success")) {
-                for (JockData data : jock.result.jockDatas) {
-                    JockData d = new JockData();
-                    d.updatetime = data.updatetime;
-                    d.content = data.content;
-                    dataList.add(d);
+            try {
+                //用于判断是否超过连接次数
+                JSONObject object = new JSONObject(jsonData);
+                String error = object.getString("error_code");
+                Log.d(TAG, "handleJock: error_code" + error);
+                if (error.equals("10012")) {
+                    Log.d(TAG, "今日连接次数已用完，无法连接服务器");
                 }
+                //获取数据成功
+                else if (error.equals("0")) {
+
+                    Gson gson = new Gson();
+                    Jock jock = gson.fromJson(jsonData, Jock.class);
+                    String s = gson.toJson(jsonData);
+                    Log.d(TAG, "error_code" + jock.getError_code());
+                    Log.d(TAG, "reason " + jock.getReason());
+                    if (jock.getReason().equals("Success")) {
+                        for (JockData data : jock.result.jockDatas) {
+                            JockData d = new JockData();
+                            d.updatetime = data.updatetime;
+                            d.content = data.content;
+                            dataList.add(d);
+                        }
+                    }
+
+                } else {
+                    Log.d(TAG, "连接服务器失败");
+                }
+
+
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
+
+//
+//            Gson gson = new Gson();
+//            Jock jock = gson.fromJson(jsonData, Jock.class);
+//            String s=gson.toJson(jsonData);
+//
+//
+//            Log.d(TAG, "error_code" + jock.getError_code());
+//            Log.d(TAG, "reason " + jock.getReason());
+//            if (jock.getReason().equals("Success")) {
+//                for (JockData data : jock.result.jockDatas) {
+//                    JockData d = new JockData();
+//                    d.updatetime = data.updatetime;
+//                    d.content = data.content;
+//                    dataList.add(d);
+//                }
+//            }
 
         }
         return dataList;
@@ -84,21 +122,51 @@ public class Utility {
      */
     public static synchronized List<ImageData> handleImage(String imageData) {
         List<ImageData> dataList = new ArrayList<>();
-
         if (!TextUtils.isEmpty(imageData)) {
-            Gson gson = new Gson();
-            Image image = gson.fromJson(imageData, Image.class);
-            if (image.getReason().equals("Success")) {
-
-                for (ImageData t : image.getResult().imageDatas) {
-
-                    ImageData data = new ImageData();
-                    data.content = t.content;
-                    data.updatetime = t.updatetime;
-                    data.url = t.url;
-                    dataList.add(data);
+            try {
+                //用于判断是否超过连接次数
+                JSONObject object = new JSONObject(imageData);
+                String error = object.getString("error_code");
+                Log.d(TAG, "handleJock: error_code" + error);
+                if (error.equals("10012")) {
+                    Log.d(TAG, "今日连接次数已用完，无法连接服务器");
                 }
+                //获取数据成功
+                else if (error.equals("0")) {
+                    Gson gson = new Gson();
+                    Image image = gson.fromJson(imageData, Image.class);
+                    if (image.getReason().equals("Success")) {
+
+                        for (ImageData t : image.getResult().imageDatas) {
+
+                            ImageData data = new ImageData();
+                            data.content = t.content;
+                            data.updatetime = t.updatetime;
+                            data.url = t.url;
+                            dataList.add(data);
+                        }
+                    }
+                } else {
+                    Log.d(TAG, "连接服务器失败");
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
+
+
+//            Gson gson = new Gson();
+//            Image image = gson.fromJson(imageData, Image.class);
+//            if (image.getReason().equals("Success")) {
+//
+//                for (ImageData t : image.getResult().imageDatas) {
+//
+//                    ImageData data = new ImageData();
+//                    data.content = t.content;
+//                    data.updatetime = t.updatetime;
+//                    data.url = t.url;
+//                    dataList.add(data);
+//                }
+//            }
         }
         return dataList;
     }
