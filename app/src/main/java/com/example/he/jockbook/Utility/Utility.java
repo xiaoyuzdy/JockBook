@@ -8,6 +8,7 @@ import com.example.he.jockbook.Bean.ImageData;
 import com.example.he.jockbook.Bean.Jock;
 import com.example.he.jockbook.Bean.JockData;
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -71,16 +72,17 @@ public class Utility {
                 else if (error.equals("0")) {
 
                     Gson gson = new Gson();
-                    Jock jock = gson.fromJson(jsonData, Jock.class);
-                    String s = gson.toJson(jsonData);
-                    Log.d(TAG, "error_code" + jock.getError_code());
-                    Log.d(TAG, "reason " + jock.getReason());
-                    if (jock.getReason().equals("Success")) {
-                        for (JockData data : jock.result.jockDatas) {
-                            JockData d = new JockData();
-                            d.updatetime = data.updatetime;
-                            d.content = data.content;
-                            dataList.add(d);
+                    if (isAvailableJockDatas(jsonData)) {
+                        Jock jock = gson.fromJson(jsonData, Jock.class);
+                        Log.d(TAG, "error_code" + jock.getError_code());
+                        Log.d(TAG, "reason " + jock.getReason());
+                        if (jock.getReason().equals("Success")) {
+                            for (JockData data : jock.result.jockDatas) {
+                                JockData d = new JockData();
+                                d.updatetime = data.updatetime;
+                                d.content = data.content;
+                                dataList.add(d);
+                            }
                         }
                     }
 
@@ -92,24 +94,6 @@ public class Utility {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
-//
-//            Gson gson = new Gson();
-//            Jock jock = gson.fromJson(jsonData, Jock.class);
-//            String s=gson.toJson(jsonData);
-//
-//
-//            Log.d(TAG, "error_code" + jock.getError_code());
-//            Log.d(TAG, "reason " + jock.getReason());
-//            if (jock.getReason().equals("Success")) {
-//                for (JockData data : jock.result.jockDatas) {
-//                    JockData d = new JockData();
-//                    d.updatetime = data.updatetime;
-//                    d.content = data.content;
-//                    dataList.add(d);
-//                }
-//            }
-
         }
         return dataList;
     }
@@ -133,17 +117,19 @@ public class Utility {
                 }
                 //获取数据成功
                 else if (error.equals("0")) {
-                    Gson gson = new Gson();
-                    Image image = gson.fromJson(imageData, Image.class);
-                    if (image.getReason().equals("Success")) {
+                    if (isAvailableImageDatas(imageData)) {
+                        Gson gson = new Gson();
+                        Image image = gson.fromJson(imageData, Image.class);
+                        if (image.getReason().equals("Success")) {
 
-                        for (ImageData t : image.getResult().imageDatas) {
+                            for (ImageData t : image.getResult().imageDatas) {
 
-                            ImageData data = new ImageData();
-                            data.content = t.content;
-                            data.updatetime = t.updatetime;
-                            data.url = t.url;
-                            dataList.add(data);
+                                ImageData data = new ImageData();
+                                data.content = t.content;
+                                data.updatetime = t.updatetime;
+                                data.url = t.url;
+                                dataList.add(data);
+                            }
                         }
                     }
                 } else {
@@ -153,21 +139,31 @@ public class Utility {
                 e.printStackTrace();
             }
 
-
-//            Gson gson = new Gson();
-//            Image image = gson.fromJson(imageData, Image.class);
-//            if (image.getReason().equals("Success")) {
-//
-//                for (ImageData t : image.getResult().imageDatas) {
-//
-//                    ImageData data = new ImageData();
-//                    data.content = t.content;
-//                    data.updatetime = t.updatetime;
-//                    data.url = t.url;
-//                    dataList.add(data);
-//                }
-//            }
         }
         return dataList;
     }
+
+    private static boolean isAvailableJockDatas(String jockDatas) {
+        try {
+            Gson gson = new Gson();
+            gson.fromJson(jockDatas, Jock.class);
+            return true;
+        } catch (JsonSyntaxException exception) {
+            exception.printStackTrace();
+            return false;
+        }
+    }
+
+    private static boolean isAvailableImageDatas(String imageDatas) {
+        try {
+            Gson gson = new Gson();
+            gson.fromJson(imageDatas, Image.class);
+            return true;
+        } catch (JsonSyntaxException exception) {
+            exception.printStackTrace();
+            return false;
+        }
+    }
+
+
 }

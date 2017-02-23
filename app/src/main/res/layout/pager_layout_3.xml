@@ -11,30 +11,78 @@
         android:layout_margin="20dp"
         app:cardCornerRadius="5dp">
 
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="15dp"
-            android:text="关于我:"
-            android:textColor="@android:color/black"
-            android:textSize="16sp" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="   CSDN：http://blog.csdn.net/fuckluy \n   GitHub：http://www.github.com/xiaoyuzdy  如果觉得项目好欢迎Star"
-            android:textColor="@android:color/darker_gray"
-            android:textSize="14sp" />
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:text="由于服务端的接口时网上免费的每天的访问量有次数限制，次数很少很少，如果服务端访问次数用完了直接开启应用会直接GG"
-            android:textColor="@android:color/darker_gray"
-            android:textSize="14sp" />
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                android:text="一些问题:"
+                android:textColor="@android:color/black"
+                android:textSize="16sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="1、数据资源来自第三方提供的API，未买高级服务，每天访问的次数有限制，如果超出了访问次数将无法获取数据，即空白的RecyclerView  \n 2、能力一般水平有限,有什么不足之处见谅"
+                android:textColor="@android:color/darker_gray"
+                android:textSize="14sp" />
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                android:text="关于我:"
+                android:textColor="@android:color/black"
+                android:textSize="16sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="一名即将毕业的大四狗"
+                android:layout_margin="10dp"
+                android:textColor="@android:color/darker_gray"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/open"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/holo_blue_dark"
+                android:layout_marginLeft="10dp"
+                android:text="本项目已在我的GitHub上开源,求Star"
+                />
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1">
+                <TextView
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:gravity="end"
+                    android:layout_marginRight="50dp"
+                    android:layout_marginBottom="20dp"
+                    android:text="感谢体验本软件  \n 如果有好的工作机会欢迎联系我 \n 990140064@qq.com"
+                    android:id="@+id/textView" />
+
+            </FrameLayout>
+
+
+
+
+        </LinearLayout>
 
 
     </android.support.v7.widget.CardView>

@@ -83,7 +83,10 @@ public class JockFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        initByHttp(URL);
+//        initByHttp(URL);
+
+        initByHttp(UrlConstants.NEWS_JOCK_URL);
+
         mAdapter = new JockAdapter(mList);
         GridLayoutManager manager = new GridLayoutManager(getActivity(), 1);
         mRecycler.setLayoutManager(manager);
@@ -136,12 +139,12 @@ public class JockFragment extends Fragment {
      * 更新消息数据
      */
     public void refreshJocks() {
-        if (mRandom)
+        if (mRandom){
             initByHttp(UrlConstants.getJockRandomUrl());
+        }
         else {
             initByHttp(UrlConstants.NEWS_JOCK_URL);
         }
-
         handler.sendEmptyMessageDelayed(JOCK_OK, 1000);
     }
 

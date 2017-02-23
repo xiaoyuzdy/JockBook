@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
 
     private Bitmap mBitmap;
     private BannerHolderView mHolder;
-//    private ImageLoader mImageLoader;
+    //    private ImageLoader mImageLoader;
 //    private int mWidth;
 //    private int mHeight;
     private List<Bitmap> mList = new ArrayList<>();
@@ -115,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         HideStatusBar.hide(this);
-
+        Log.d(TAG, "线程  " + Thread.currentThread());
         mHolder = (BannerHolderView) findViewById(R.id.banner_holder);
         mBar = (ProgressBar) findViewById(R.id.pb);
         mButtonBar = (BottomNavigationBar) findViewById(R.id.navigation_bar);
@@ -138,11 +138,10 @@ public class MainActivity extends AppCompatActivity {
 
         //ViewPage初始化
         initView();
-        //底部导航栏初始化
-        initBottomBar();
         //顶部广告栏初始化
         initHolder();
-
+        //底部导航栏初始化
+        initBottomBar();
 
     }
 
@@ -161,6 +160,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
+                Log.d(TAG, "线程  " + Thread.currentThread());
                 final String urlImage = response.body().string();
                 SharedPreferrenceHelper.saveBingPicUrl(MainActivity.this, urlImage);
                 try {
@@ -217,7 +217,7 @@ public class MainActivity extends AppCompatActivity {
             };
             THREAD_POOL_EXECUTOR.execute(loadBitmapFromLocal);
             Log.d(TAG, "initHolder: ");
-        }else{
+        } else {
             loadImage(BING_URL);
         }
     }
@@ -269,75 +269,9 @@ public class MainActivity extends AppCompatActivity {
             //未选中-->选中
             @Override
             public void onTabSelected(int position) {
-//                if (canPress) {
-                switch (position) {
-                    //最新
-                    case 0:
-                        //笑话
-                        if (getViewPagerItem() == 0) {
-                            //显示刷新状态并刷新数据
-                            mJock.mRefresh.setRefreshing(true);
-                            mJock.mRandom = false;
-                            mJock.URL = UrlConstants.NEWS_JOCK_URL;
-                            mJock.refreshJocks();
-                        }
-                        //趣图
-                        else if (getViewPagerItem() == 1) {
-                            mImage.mRefresh.setRefreshing(true);
-                            mImage.mRandom = false;
-                            mImage.URL = UrlConstants.NEWS_IMAGE_URL;
-                            mImage.onRefresh();
 
-                        }
-                        //其他
-                        else if (getViewPagerItem() == 2) {
-
-                        }
-                        break;
-
-                    //随机
-                    case 1:
-                        //笑话
-                        if (getViewPagerItem() == 0) {
-                            //显示刷新状态并刷新数据
-                            mJock.mRefresh.setRefreshing(true);
-                            mJock.mRandom = true;
-                            mJock.refreshJocks();
-                        }
-                        //趣图
-                        else if (getViewPagerItem() == 1) {
-                            mImage.mRefresh.setRefreshing(true);
-                            mImage.mRandom = true;
-                            mImage.onRefresh();
-                        }
-                        //其他
-                        else if (getViewPagerItem() == 2) {
-
-                        }
-                        break;
-
-                    //我
-                    case 2:
-                        break;
-
-                    default:
-                        break;
-                }
-            }
-//                canPress=false;
-//            }
-
-            //选中-->未选中
-            @Override
-            public void onTabUnselected(int position) {
-
-
-            }
-
-            //选中-->选中
-            @Override
-            public void onTabReselected(int position) {
                 if (canPress) {
+                    canPress = false;
                     switch (position) {
                         //最新
                         case 0:
@@ -355,13 +289,15 @@ public class MainActivity extends AppCompatActivity {
                                 mImage.mRandom = false;
                                 mImage.URL = UrlConstants.NEWS_IMAGE_URL;
                                 mImage.onRefresh();
+
                             }
                             //其他
                             else if (getViewPagerItem() == 2) {
 
                             }
+                            break;
 
-                            //随机
+                        //随机
                         case 1:
                             //笑话
                             if (getViewPagerItem() == 0) {
@@ -383,13 +319,84 @@ public class MainActivity extends AppCompatActivity {
                             break;
                         //我
                         case 2:
+                            mViewPager.setCurrentItem(2);
+                            canPress = true;
                             break;
 
                         default:
                             break;
                     }
                 }
-                canPress = false;
+//                canPress=false;
+            }
+
+            //选中-->未选中
+            @Override
+            public void onTabUnselected(int position) {
+
+            }
+
+            //选中-->选中
+            @Override
+            public void onTabReselected(int position) {
+
+                if (canPress) {
+                    canPress = false;
+                    switch (position) {
+                        //最新
+                        case 0:
+                            //笑话
+                            if (getViewPagerItem() == 0) {
+                                //显示刷新状态并刷新数据
+                                mJock.mRefresh.setRefreshing(true);
+                                mJock.mRandom = false;
+//                                mJock.URL = UrlConstants.NEWS_JOCK_URL;
+                                mJock.refreshJocks();
+                            }
+                            //趣图
+                            else if (getViewPagerItem() == 1) {
+                                mImage.mRefresh.setRefreshing(true);
+                                mImage.mRandom = false;
+                                mImage.URL = UrlConstants.NEWS_IMAGE_URL;
+                                mImage.onRefresh();
+                            }
+                            //其他
+                            else if (getViewPagerItem() == 2) {
+
+                            }
+                            break;
+
+                        //随机
+                        case 1:
+                            //笑话
+                            if (getViewPagerItem() == 0) {
+                                //显示刷新状态并刷新数据
+                                mJock.mRefresh.setRefreshing(true);
+                                mJock.mRandom = true;
+                                mJock.refreshJocks();
+                            }
+                            //趣图
+                            else if (getViewPagerItem() == 1) {
+                                mImage.mRefresh.setRefreshing(true);
+                                mImage.mRandom = true;
+                                mImage.onRefresh();
+                            }
+                            //其他
+                            else if (getViewPagerItem() == 2) {
+
+                            }
+                            break;
+                        //我
+                        case 2:
+                            mViewPager.setCurrentItem(2);
+                            canPress = true;
+                            break;
+
+                        default:
+                            break;
+                    }
+                }
+//                canPress = false;
             }
         });
 
