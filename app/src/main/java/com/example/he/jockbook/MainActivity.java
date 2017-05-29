@@ -167,14 +167,14 @@ public class MainActivity extends AppCompatActivity {
                     Bitmap b = Glide.with(MainActivity.this).load(R.drawable.holder_default_bj).asBitmap().into(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL).get();
                     Bitmap c = Glide.with(MainActivity.this).load(R.drawable.holder_default_bj2).asBitmap().into(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL).get();
                     Bitmap d = Glide.with(MainActivity.this).load(R.drawable.image_default).asBitmap().into(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL).get();
-                    mBitmap = Glide.with(MainActivity.this).load(urlImage).asBitmap().into(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL).get();
+//                    mBitmap = Glide.with(MainActivity.this).load(urlImage).asBitmap().into(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL).get();
                     mList.add(b);
                     mList.add(c);
-                    if (mBitmap != null)
-                        mList.add(mBitmap);
-                    else {
+//                    if (mBitmap != null)
+//                        mList.add(mBitmap);
+//                    else {
                         mList.add(d);
-                    }
+//                    }
                     h.sendEmptyMessageDelayed(BANNER_HOLDER_OK, 1000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
@@ -198,14 +198,14 @@ public class MainActivity extends AppCompatActivity {
                         Bitmap b = Glide.with(MainActivity.this).load(R.drawable.holder_default_bj).asBitmap().into(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL).get();
                         Bitmap c = Glide.with(MainActivity.this).load(R.drawable.holder_default_bj2).asBitmap().into(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL).get();
                         Bitmap d = Glide.with(MainActivity.this).load(R.drawable.image_default).asBitmap().into(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL).get();
-                        mBitmap = Glide.with(MainActivity.this).load(url).asBitmap().into(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL).get();
+//                        mBitmap = Glide.with(MainActivity.this).load(url).asBitmap().into(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL).get();
                         mList.add(b);
                         mList.add(c);
-                        if (mBitmap != null)
-                            mList.add(mBitmap);
-                        else {
-                            mList.add(d);
-                        }
+//                        if (mBitmap != null)
+//                            mList.add(mBitmap);
+//                        else {
+                        mList.add(d);
+//                        }
                         h.sendEmptyMessageDelayed(BANNER_HOLDER_OK, 1000);
 
                     } catch (InterruptedException e) {
